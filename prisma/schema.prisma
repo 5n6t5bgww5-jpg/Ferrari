@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Source {
+  BAT
+  CARS_AND_BIDS
+  RM_SOTHEBYS
+}
+
+enum SaleStatus {
+  SOLD
+  RESERVE_NOT_MET
+  UNKNOWN
+}
+
+model FerrariModel {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  series        String?
+  yearStart     Int
+  yearEnd       Int?
+  bodyStyles    String // comma-separated, e.g. "Berlinetta,Spider"
+  aliases       String // JSON-encoded string[]
+  matchPatterns String // JSON-encoded string[] of regex patterns, most-specific first
+
+  sales     SaleRecord[]
+  stats     ModelStat[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model SaleRecord {
+  id      String     @id @default(cuid())
+  source  Source
+  url     String     @unique
+  title   String
+  modelId String?
+  model   FerrariModel? @relation(fields: [modelId], references: [id])
+
+  year      Int?
+  vin       String?
+  mileage   Int?
+  location  String?
+  status    SaleStatus @default(UNKNOWN)
+  salePrice Int? // whole-dollar USD amount
+  currency  String     @default("USD")
+  saleDate  DateTime?
+  imageUrl  String?
+
+  scrapedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([modelId, saleDate])
+  @@index([saleDate])
+}
+
+model ModelStat {
+  id      String       @id @default(cuid())
+  modelId String
+  model   FerrariModel @relation(fields: [modelId], references: [id])
+
+  windowDays  Int // 7 | 30 | 90 | 365
+  avgPrice    Int
+  medianPrice Int
+  count       Int
+  pctChange   Float? // vs prior equal-length window
+  computedAt  DateTime @default(now())
+
+  @@unique([modelId, windowDays])
+}

@@ -1,0 +1,32 @@
+<!--
+  Synthetic fixture approximating Bring a Trailer's known listing-page
+  conventions (title in <h1>, "Sold for $X on <date>" phrasing, a labeled
+  Essentials list with mileage/chassis/location). This is NOT captured from
+  a live page — this sandbox's network egress to bringatrailer.com was
+  blocked, so the real markup could not be verified. Used only to exercise
+  the parser's regex-based extraction logic. Verify against a real listing
+  page before trusting scraped data; see scraper/README.md.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>1995 Ferrari F355 GTS 6-Speed | Bring a Trailer</title>
+  <meta property="og:image" content="https://bringatrailer.com/wp-content/uploads/2024/05/example.jpg" />
+</head>
+<body>
+  <h1 class="post-title listing-post-title">1995 Ferrari F355 GTS 6-Speed</h1>
+  <div class="listing-available-info">
+    <span>Sold for $85,000 on 6/12/24</span>
+  </div>
+  <div class="listing-essentials">
+    <ul>
+      <li>32,415 Miles</li>
+      <li>Chassis: ZFFXR41A9S0104521</li>
+      <li>Location: Los Angeles, California</li>
+    </ul>
+  </div>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Product","name":"1995 Ferrari F355 GTS 6-Speed","offers":{"@type":"Offer","price":"85000","priceCurrency":"USD"}}
+  </script>
+</body>
+</html>

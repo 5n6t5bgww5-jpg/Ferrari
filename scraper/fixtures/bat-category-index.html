@@ -1,0 +1,24 @@
+<!--
+  Synthetic fixture approximating a BaT model-results (category) page: a grid
+  of links to individual listings. Not captured from a live page (see
+  bat-listing-sold.html for context). Used only to test that listing-URL
+  extraction doesn't depend on card/grid CSS classes.
+-->
+<!DOCTYPE html>
+<html>
+<body>
+  <nav><a href="/">Home</a></nav>
+  <div class="listings-grid">
+    <a class="listing-card" href="https://bringatrailer.com/listing/1995-ferrari-f355-gts-6-speed/">
+      <span>1995 Ferrari F355 GTS 6-Speed</span>
+    </a>
+    <a class="listing-card" href="/listing/1997-ferrari-f355-spider/">
+      <span>1997 Ferrari F355 Spider</span>
+    </a>
+    <a class="listing-card" href="https://bringatrailer.com/listing/1995-ferrari-f355-gts-6-speed/">
+      duplicate link to the same listing (thumbnail + title both link to it)
+    </a>
+  </div>
+  <a href="https://bringatrailer.com/ferrari/f355/page/2/">Next page</a>
+</body>
+</html>
